@@ -1,7 +1,7 @@
 
 *{
 	background-color: #000000;
-	color: #FF0000;
+	color: white;
 	text-align: center;
 }
 .board{
@@ -16,4 +16,12 @@
 .Tile{
     background-color: #2A2A2A;
     width: 20px;
+}
+#score{
+	color: white;
+}
+#timer{
+	border: 1px solid white;
+	font-size: 20px;
+	margin: 20px;
 }

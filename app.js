@@ -13,6 +13,9 @@ let snakeSize = 2;
 let numMoves = 0;
 let snakeBody = [[2, 15], [1, 15]]
 let snakeColored = []
+let feedArr = [];
+let score = 0;
+var x = 0
 snakeColored.push(Head)
 snakeColored.push(snakeBody[0])
 snakeColored.push(snakeBody[1])
@@ -34,20 +37,23 @@ function snakeColor(){
             document.getElementById(snakeColored[i][0] + "-" + snakeColored[i][1]).style.background = "#2A2A2A";
         }
     }
-        document.getElementById(Head[0] + "-" + Head[1]).style.background = "red";
-        for(var i = 0; i < snakeSize; i++){
-            document.getElementById(snakeBody[i][0] + "-" + snakeBody[i][1]).style.background = "red";
-        }
-        snakeColored = [];
-        snakeBody.forEach(function(x){
-            snakeColored.push(x);
-        })
-        snakeColored.unshift(Head);
+    document.getElementById(Head[0] + "-" + Head[1]).style.background = "red";
+    for(var i = 0; i < snakeSize; i++){
+        document.getElementById(snakeBody[i][0] + "-" + snakeBody[i][1]).style.background = "red";
+    }
+    snakeColored = [];
+    snakeBody.forEach(function(x){
+        snakeColored.push(x);
+    })
+    snakeColored.unshift(Head);
     numMoves++;
-    console.log("numMoves: " + numMoves)
 }
 function SnakeMove(e){
-    holdHead = Head;
+    if (numMoves == 0){
+        setTimeout(0);
+    }
+    holdHead.push(Head[0])
+    holdHead.push(Head[1])
     if(e.key == 'a' && Head[0] != 0 && checkLocation(Head[0] -1, Head[1]) == true){
         Head[0] -= 1
         moveBody();
@@ -64,6 +70,18 @@ function SnakeMove(e){
         Head[1] += 1;
         moveBody();
     }
+    if(x == 0){
+        setInterval(() =>{
+            if(x<30){
+                x++;
+                console.log(x)
+                    document.getElementById("timer").textContent = x;
+            }
+            else{
+                document.getElementById("board").innerHTML = "Thank you for playing your score is " + score;
+            }
+        }, 1000);
+    }
 }
 function moveBody(){
     if(!feedLocation(Head)){
@@ -72,10 +90,11 @@ function moveBody(){
     }else{
         snakeBody.unshift(holdHead)
     }
+    holdHead = []
     snakeColor();
 }
 function checkLocation(x, y){
-    for(var i = 0; i < snakeSize; i++){
+    for(var i = 0; i < snakeSize-1; i++){
         if(snakeBody[i][0] == x && snakeBody[i][1] == y){
             return false
         }
@@ -84,8 +103,27 @@ function checkLocation(x, y){
 }
 function feedLocation(Head){
     if(numMoves % 6 == 0){
-
+        spawnFood();
     }
-
+    console.log(feedArr)
+    for(var i = 0; i < feedArr.length; i++){
+        if(Head[0] == feedArr[i][0] && Head[1] == feedArr[i][1]){
+            feedArr.splice(i, 1);
+            score++;
+            console.log(Head)
+            console.log(feedArr[i])
+            document.getElementById("score").textContent = "Score: " + score;
+        }
+    }
+}
+function spawnFood(){
+    var i;
+    var j;
+    do{
+    i = Math.floor(Math.random()*30);
+    j = Math.floor(Math.random()*30)
+    }while(Head[0] != i && Head[1] != j && checkLocation(i, j))
+        document.getElementById(i + "-" + j).style.background = "yellow";
+    feedArr.push([i, j]);
 }
 snakeColor();
