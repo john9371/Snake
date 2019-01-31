@@ -1,0 +1,19 @@
+
+*{
+	background-color: #000000;
+	color: #FF0000;
+	text-align: center;
+}
+.board{
+	display: flex;
+	flex-Direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-left:auto;
+    margin-right:auto;
+    width: 600px;
+}
+.Tile{
+    background-color: #2A2A2A;
+    width: 20px;
+}
