@@ -10,12 +10,12 @@ let Tiles={};
 let Head = [3, 15]
 let holdHead = []
 let snakeSize = 2;
-let numMoves = 0;
+let numMoves = -1;
 let snakeBody = [[2, 15], [1, 15]]
 let snakeColored = []
 let feedArr = [];
 let score = 0;
-var x = 0
+var x = 0;
 snakeColored.push(Head)
 snakeColored.push(snakeBody[0])
 snakeColored.push(snakeBody[1])
@@ -32,7 +32,7 @@ document.addEventListener("keypress", function(e){
 SnakeMove(e);
 });
 function snakeColor(){
-    if(numMoves != 0){
+    if(numMoves != -1){
         for(var i = 0; i <= snakeSize; i++){
             document.getElementById(snakeColored[i][0] + "-" + snakeColored[i][1]).style.background = "#2A2A2A";
         }
@@ -49,9 +49,6 @@ function snakeColor(){
     numMoves++;
 }
 function SnakeMove(e){
-    if (numMoves == 0){
-        setTimeout(0);
-    }
     holdHead.push(Head[0])
     holdHead.push(Head[1])
     if(e.key == 'a' && Head[0] != 0 && checkLocation(Head[0] -1, Head[1]) == true){
@@ -70,12 +67,14 @@ function SnakeMove(e){
         Head[1] += 1;
         moveBody();
     }
-    if(x == 0){
+    console.log(numMoves)
+    if(numMoves == 1){
+        console.log(x)
         setInterval(() =>{
             if(x<30){
                 x++;
                 console.log(x)
-                    document.getElementById("timer").textContent = x;
+                    document.getElementById("timer").innerHTML = x;
             }
             else{
                 document.getElementById("board").innerHTML = "Thank you for playing your score is " + score;
@@ -126,4 +125,5 @@ function spawnFood(){
         document.getElementById(i + "-" + j).style.background = "yellow";
     feedArr.push([i, j]);
 }
+spawnFood();
 snakeColor();
